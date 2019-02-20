@@ -1,0 +1,5 @@
+#!/bin/bash
+a2ensite wx
+a2enmod cgi
+a2enmod rewrite
+a2enmod ssl

@@ -1,0 +1,37 @@
+#!/usr/bin/env perl
+use strict;
+use warnings;
+use IO::Pipe;
+use IO::File;
+use File::Copy qw(move);
+use DateTime;
+use POSIX;
+use Carp;
+use English qw(-no_match_vars);
+
+my $DIR_CURRENT = q[/ram];
+my $DIR_ARCHIVE = q[/data];
+
+while(1) {
+  my $start = DateTime->now;
+  my $out   = IO::File->new(">>$DIR_CURRENT/wx.json") or croak "Error opening $DIR_CURRENT/wx.json: $ERRNO";
+  my $in    = IO::Pipe->new;
+
+  $out->autoflush(1);# or croak "Error setting autoflush: $ERRNO";
+
+  $in->reader(q[rtl_433 -F json -C si]);
+
+  while(my $line = <$in>) {
+    print $out $line;
+
+    my $now = DateTime->now;
+    if($start->day != $now->day) {
+      $in->close;
+      $out->close;
+      last;
+    }
+  }
+
+  move("$DIR_CURRENT/wx.json", "$DIR_ARCHIVE/wx/@{[$start->ymd]}.json");
+  sleep 5;
+}

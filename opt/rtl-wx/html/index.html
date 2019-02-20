@@ -1,0 +1,65 @@
+<html>
+  <head>
+    <style>
+     .row { height: 33%; min-height: 260px;}
+     .col { width: 49%; font-size: 3vw; height: 100%; border: 1px solid #aaa; margin: 0; text-align: center; float:left;}
+     .col-2 { width: 99%; font-size: 3vw; height: 100%; border: 1px solid #aaa; margin: 0; text-align: center; float:left;}
+     h2 {
+       font-size:2vw;
+       position: absolute;
+       width: 120px;
+       text-align: left;
+       padding: 2px;
+       background: #ccc;
+       margin: 0;
+       font-family: courier;
+       border: 1px solid #aaa;
+     }
+    </style>
+  </head>
+  <body>
+    <div class="row">
+      <div class="col" id="outside"><h2>Outside</h2>
+	<span class="metric"><span class="label">Temp:</span><span id="temperature_C"></span>&deg;C</span><br>
+	<span class="metric"><span class="label">Rel. Hum.</span><span id="humidity"></span>%</span><br>
+      </div>
+      <div class="col" id="wind">
+	<h2>Wind</h2>
+	<span class="metric"><span class="label">Direction:</span> <span id="direction_deg"></span>&deg;</span><br>
+	<span class="metric"><span class="label">Speed:</span> <span id="speed"></span>km/h</span><br>
+	<span class="metric"><span class="label">Gusting:</span> <span id="gust"></span>km/h</span><br>
+	<span class="metric"><span class="label">Rain:</span> <span id="rain"></span>mm</span><br>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col" id="tendency"></div>
+      <div class="col" id="pressure"></div>
+    </div>
+    <div class="row">
+      <div class="col-2" id="stats">
+	<span class="metric"><span class="label">Date/Time:</span><span id="time"></span></span>
+	<span class="metric"><span class="label">Battery:</span><span id="battery"></span></span>
+      </div>
+    </div>
+
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.min.js"
+      integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+      crossorigin="anonymous"></script>
+    
+    <script>
+    
+     const update = () => {
+       $.getJSON("/wx.cgi", struct => {
+	 Object.keys(struct).forEach((k) => {
+	   $(`#${k}`).html(struct[k]);
+	 });
+       });
+     };
+
+     const interval = setInterval(update, 30000);
+     update();
+       //{"time" : "2019-02-18 23:07:53", "model" : "Fine Offset Electronics WH1080/WH3080 Weather Station", "msg_type" : 0, "id" : 84, "temperature_C" : 4.100, "humidity" : 59, "direction_deg" : 225, "speed" : 1.224, "gust" : 3.672, "rain" : 804.600, "battery" : "LOW", "mic" : "CRC"}
+    </script>
+  </body>
+</html>
