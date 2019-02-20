@@ -3,13 +3,14 @@
 A project for snooping in, logging and displaying data captured from a "Fine Offset Electronics WH1080/WH3080 Weather Station".
 
 ## Prerequisites ##
-librtlsdr-dev
-rtl_433 
-apache2
-
-
+ - librtlsdr-dev
+ - rtl_433 
+ - apache2
 
 ## Setup ##
+
+### rtl_433 ###
+```
 sudo apt-get install librtlsdr-dev
 git clone https://github.com/merbanan/rtl_433.git
 cd rtl_433
@@ -18,12 +19,18 @@ cd build
 cmake ..
 make
 sudo make install
+```
 
+### rtl-sdr udev device permissions ###
+```
 git clone git://git.osmocom.org/rtl-sdr.git
 cd rtl-sdr
 sudo cp rtl-sdr.rules /etc/udev/rules.d/
-
 sudo reboot
+```
 
+### Let's Encrypt certbot ###
+```
 sudo apt-get install certbot
 certbot -d wx.your.domain --manual --preferred-challenges dns certonly
+```
