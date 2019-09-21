@@ -34,7 +34,7 @@ sub wx {
 }
 
 sub forecast {
-  my $FILE_CURRENT = qq[$DIR_CURRENT/5dayforecast.json];
+  my $FILE_CURRENT = qq[/data/5dayforecast.json];
 
   my $io = IO::File->new($FILE_CURRENT);
   while(<$io>) {
