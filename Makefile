@@ -12,7 +12,7 @@ deb:
 	touch tmp
 	rm -rf tmp
 	mkdir tmp
-	cp -pR DEBIAN bin cgi-bin html etc lib tmp/
+	cp -pR DEBIAN opt etc tmp/
 	$(SEDI) "s/VERSION/$(VERSION)/g" tmp/DEBIAN/control
 	chmod -R 755 tmp/DEBIAN
 	fakeroot dpkg -b tmp $(PKG)-$(VERSION).deb
