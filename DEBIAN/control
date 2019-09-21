@@ -1,1 +1,9 @@
+Package: rtl-wx
+Version: VERSION
+Section: base
+Priority: optional
+Architecture: any
+Source: rtl-wx
 Depends: libjson-perl, libdatetime-perl
+Maintainer: Roger Pettett <rmp@psyphi.net>
+Description: Weather station receiver, logging, and display, based on RTL-433
