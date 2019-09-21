@@ -1,0 +1,18 @@
+[Unit]
+Description=Weather station rtl_433 listener service
+
+[Service]
+User=root
+StandardOutput=null
+ExecStart=/opt/rtl-wx/bin/wxd
+ExecReload=/bin/kill -HUP $MAINPID
+Type=simple
+Restart=on-failure
+RestartSec=30
+# exit code 4 means login failed
+# exit code 6 means startup failed (bad args or missing MAC)
+RestartPreventExitStatus=4 6
+WorkingDirectory=/opt/rtl-wx
+
+[Install]
+WantedBy=default.target

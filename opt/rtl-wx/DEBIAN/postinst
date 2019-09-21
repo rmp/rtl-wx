@@ -1,0 +1,6 @@
+#!/bin/bash
+a2ensite wx
+systemctl restart apache2
+systemctl daemon-reload
+systemctl enable wx
+systemctl restart wx
