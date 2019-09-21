@@ -1,0 +1,142 @@
+curl -X GET "http://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=bewX60FwG1CwiHA8V9VsAxCYS0nIvco6&q=51.8749%2C0.3716&details=true"
+
+{
+  "Version": 1,
+  "Key": "2532857",
+  "Type": "City",
+  "Rank": 85,
+  "LocalizedName": "Churchend",
+  "EnglishName": "Churchend",
+  "PrimaryPostalCode": "CM6 2",
+  "Region": {
+    "ID": "EUR",
+    "LocalizedName": "Europe",
+    "EnglishName": "Europe"
+  },
+  "Country": {
+    "ID": "GB",
+    "LocalizedName": "United Kingdom",
+    "EnglishName": "United Kingdom"
+  },
+  "AdministrativeArea": {
+    "ID": "ESS",
+    "LocalizedName": "Essex",
+    "EnglishName": "Essex",
+    "Level": 1,
+    "LocalizedType": "Non-Metropolitan County",
+    "EnglishType": "Non-Metropolitan County",
+    "CountryID": "GB"
+  },
+  "TimeZone": {
+    "Code": "BST",
+    "Name": "Europe/London",
+    "GmtOffset": 1,
+    "IsDaylightSaving": true,
+    "NextOffsetChange": "2019-10-27T01:00:00Z"
+  },
+  "GeoPosition": {
+    "Latitude": 51.878,
+    "Longitude": 0.368,
+    "Elevation": {
+      "Metric": {
+        "Value": 74,
+        "Unit": "m",
+        "UnitType": 5
+      },
+      "Imperial": {
+        "Value": 242,
+        "Unit": "ft",
+        "UnitType": 0
+      }
+    }
+  },
+  "IsAlias": false,
+  "SupplementalAdminAreas": [
+    {
+      "Level": 0,
+      "LocalizedName": "England",
+      "EnglishName": "England"
+    },
+    {
+      "Level": 2,
+      "LocalizedName": "Uttlesford",
+      "EnglishName": "Uttlesford"
+    }
+  ],
+  "DataSets": [
+    "Alerts",
+    "MinuteCast",
+    "Radar"
+  ],
+  "Details": {
+    "Key": "2532857",
+    "StationCode": "EGSL",
+    "StationGmtOffset": 0,
+    "BandMap": "ENGL",
+    "Climo": "EGSS",
+    "LocalRadar": "",
+    "MediaRegion": null,
+    "Metar": "EGSS",
+    "NXMetro": "",
+    "NXState": "",
+    "Population": null,
+    "PrimaryWarningCountyCode": "",
+    "PrimaryWarningZoneCode": "",
+    "Satellite": "EUR3",
+    "Synoptic": "03784",
+    "MarineStation": "",
+    "MarineStationGMTOffset": null,
+    "VideoCode": "",
+    "LocationStem": "gb/churchend/cm6-2",
+    "PartnerID": null,
+    "Sources": [
+      {
+        "DataType": "CurrentConditions",
+        "Source": "AccuWeather",
+        "SourceId": 1
+      },
+      {
+        "DataType": "DailyForecast",
+        "Source": "AccuWeather",
+        "SourceId": 1
+      },
+      {
+        "DataType": "HourlyForecast",
+        "Source": "AccuWeather",
+        "SourceId": 1
+      },
+      {
+        "DataType": "MinuteCast",
+        "Source": "AccuWeather",
+        "SourceId": 1
+      },
+      {
+        "DataType": "Alerts",
+        "Source": "Met Office National Severe Weather Warnings",
+        "SourceId": 4
+      },
+      {
+        "DataType": "Severe Weather Push Notifications",
+        "Source": "Met Office National Severe Weather Warnings",
+        "SourceId": 4
+      },
+      {
+        "DataType": "Severe Weather Push Notifications",
+        "Source": "UK Environment Agency",
+        "SourceId": 42
+      },
+      {
+        "DataType": "Alerts",
+        "Source": "UK Environment Agency",
+        "SourceId": 42
+      },
+      {
+        "DataType": "Radar",
+        "Source": "UK Met Office",
+        "SourceId": 60
+      }
+    ],
+    "CanonicalPostalCode": "CM6 2",
+    "CanonicalLocationKey": "2532857"
+  }
+}

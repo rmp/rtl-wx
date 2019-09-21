@@ -1,0 +1,42 @@
+#########
+#
+use strict;
+use warnings;
+use Config::IniFiles;
+use LWP::Simple qw(get);
+use JSON;
+use IO::File;
+
+my $QUERIES = {
+	       'location' => 'http://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=%apikey&q=%lat,%lon&details=true',
+	       '5dayforecast' => 'http://dataservice.accuweather.com/forecasts/v1/daily/5day/%location?apikey=%apikey&details=true&metric=true',
+	      };
+
+my $cfg     = Config::IniFiles->new(-file=>"/etc/rtl-wx.ini");
+my $lat     = $cfg->val('settings', 'lat');
+my $lon     = $cfg->val('settings', 'lon');
+my $apikey  = $cfg->val('settings', 'apikey');
+
+
+sub query {
+  my ($name, $paramsIn) = @_;
+  my $params = {%{$paramsIn}};
+  $params->{apikey} = $apikey;
+  my $url  = $QUERIES->{$name};
+  $url     =~ s{%([a-z]+)}{$params->{$1}}smixg;
+  my $str  = get($url);
+  my $json = JSON->new;
+  return $json->decode($str);
+}
+
+my $locationData = query('location', {
+				      lat => $lat,
+				      lon => $lon,
+				     });
+
+my $forecast = query('5dayforecast', {
+				      location => $locationData->{Key},
+				     });
+my $io = IO::File->new(">/data/5dayforecast.json");
+print $io JSON->new->encode($forecast);
+$io->close;
