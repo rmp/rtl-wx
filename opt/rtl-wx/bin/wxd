@@ -28,10 +28,10 @@ while(1) {
     if($start->day != $now->day) {
       $in->close;
       $out->close;
+      move("$DIR_CURRENT/wx.json", "$DIR_ARCHIVE/wx/@{[$start->ymd]}.json");
       last;
     }
   }
 
-  move("$DIR_CURRENT/wx.json", "$DIR_ARCHIVE/wx/@{[$start->ymd]}.json");
   sleep 5;
 }
