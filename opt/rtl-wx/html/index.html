@@ -122,7 +122,7 @@
 	   const date = new Date(day.Date).toLocaleDateString();
 	   const moonrise = new Date(day.Moon.Rise).toLocaleDateString();
 	   const moonset = new Date(day.Moon.Set).toLocaleDateString();
-	   
+
 	   const dayEl = $(`
 <div>
   ${date}
@@ -142,7 +142,7 @@
    Chance of ${day.Day.PrecipitationIntensity||""} Rain: ${day.Day.PrecipitationProbability}
   </div>
   <div>
-    Moon: <img class="icon icon-moon" src="gfx/${day.Moon.Phase}.svg" alt="${day.Moon.Phase}"/>
+    Moon: <img class="icon icon-moon" src="gfx/moon/${day.Moon.Phase}.svg" alt="${day.Moon.Phase}"/>
   </div>
   <div>
     ${day.Day.LongPhrase}
