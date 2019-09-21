@@ -4,7 +4,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="css/bootstrap.min.css" />
     <style>
+
+     html, body, .container {
+       height: 100%;
+     }
+
+     body > .container {
+       padding-bottom: 60px;
+     }
+
+     footer {
+       margin-top: -60px;
+     }
+
+     .col-xs-5ths,
+     .col-sm-5ths,
+     .col-md-5ths,
+     .col-lg-5ths {
+       position: relative;
+       min-height: 1px;
+       padding-right: 15px;
+       padding-left: 15px;
+     }
+
+     .col-xs-5ths {
+       width: 20%;
+       float: left;
+     }
+
+     @media (min-width: 768px) {
+       .col-sm-5ths {
+         width: 20%;
+         float: left;
+       }
+     }
+
+     @media (min-width: 992px) {
+       .col-md-5ths {
+         width: 20%;
+         float: left;
+       }
+     }
+
+     @media (min-width: 1200px) {
+       .col-lg-5ths {
+         width: 20%;
+         float: left;
+       }
+     }
+
      .row { border: 1px solid red; }
+     .icon { width: 20px; height: 20px; }
+     .day { background: #ddd; margin: 10px; padding: 10px; }
     </style>
   </head>
   <body>
@@ -26,20 +77,32 @@
 	<div class="col-lg-6 col-md-6 col-sm-12" id="tendency"></div>
 	<div class="col-lg-6 col-md-6 col-sm-12" id="pressure"></div>
       </div>
-      <div class="row h-25">
-	<div clas="col-lg-12 col-md-12 col-sm-12" id="forecast">
+      <div class="row h-50">
+	<div class="col-lg-12 col-md-12 col-sm-12">
 	  <h2>5 Day Forecast</h2>
-	</div>
-      </div>
-      <div class="row h-25">
-	<div class="col-lg-6 col-md-6 col-sm-6" id="stats-tm">
-	  <span class="metric"><span class="label">Date/Time:</span><span id="time"></span></span>
-	</div>
-	<div class="col-lg-6 col-md-6 col-sm-6" id="stats-bt">
-	  <span class="metric"><span class="label">Battery:</span><span id="battery"></span></span>
+	  <div class="row-fluid" id="forecast">
+	    <div class="col-md-5ths"><div class="day" id="day0"></div></div>
+	    <div class="col-md-5ths"><div class="day" id="day1"></div></div>
+	    <div class="col-md-5ths"><div class="day" id="day2"></div></div>
+	    <div class="col-md-5ths"><div class="day" id="day3"></div></div>
+	    <div class="col-md-5ths"><div class="day" id="day4"></div></div>
+	  </div>
 	</div>
       </div>
     </div>
+    <footer class="footer">
+      <div class="container">
+	<div class="row">
+	  <div class="col-lg-6 col-md-6 col-sm-6" id="stats-tm">
+	    <span class="metric"><span class="label">Date/Time:</span><span id="time"></span></span>
+	  </div>
+	  <div class="col-lg-6 col-md-6 col-sm-6" id="stats-bt">
+	    <span class="metric"><span class="label">Battery:</span><span id="battery"></span></span>
+	  </div>
+	</div>
+      </div>
+    </footer>
+
     <script src="js/jquery-3.3.1.min.js"></script>
     <script src="js/bootstrap.bundle.min.js"></script>
     <script>
@@ -54,16 +117,39 @@
        $.getJSON("/wx.cgi?type=forecast", struct => {
 	 console.log(struct);
 
+	 let  id=0;
 	 struct.DailyForecasts.forEach(day => {
-	   const date = day.Date;
-	   const min = `${day.Temperature.Minimum}˚${day.Temperature.Unit}`;
-	   const max = `${day.Temperature.Maximum}˚${day.Temperature.Unit}`;
-	   const summary = `${day.Day.ShortPhrase}`;
-	   const icon = $(`<img src="gfx/${day.Day.Icon}.svg" alt="${day.Day.IconPhrase}"/>`);
-
-	   const day = $(`<div>${date} Min:${min} Max:${max} ${summary}</div>`);
-	   day.append(icon);
-	   $('#forecast').append(day);
+	   const date = new Date(day.Date).toLocaleDateString();
+	   const moonrise = new Date(day.Moon.Rise).toLocaleDateString();
+	   const moonset = new Date(day.Moon.Set).toLocaleDateString();
+	   
+	   const dayEl = $(`
+<div>
+  ${date}
+  <div>
+    Min: ${day.Temperature.Minimum.Value}&deg;${day.Temperature.Minimum.Unit}
+  </div>
+  <div>
+    Max: ${day.Temperature.Maximum.Value}&deg;${day.Temperature.Maximum.Unit}
+  </div>
+  <div>
+    Day: <img class="icon icon-wx" src="gfx/${day.Day.Icon}.svg" alt="${day.Day.IconPhrase}"/>
+  </div>
+  <div>
+    Night: <img class="icon icon-wx" src="gfx/${day.Night.Icon}.svg" alt="${day.Night.IconPhrase}"/>
+  </div>
+  <div>
+   Chance of ${day.Day.PrecipitationIntensity||""} Rain: ${day.Day.PrecipitationProbability}
+  </div>
+  <div>
+    Moon: <img class="icon icon-moon" src="gfx/${day.Moon.Phase}.svg" alt="${day.Moon.Phase}"/>
+  </div>
+  <div>
+    ${day.Day.LongPhrase}
+  </div>
+</div>`);
+	   $(`#day${id}`).empty().append(dayEl);
+	   id += 1;
 	 });
        });
      };
