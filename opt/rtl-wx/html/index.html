@@ -3,107 +3,33 @@
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="css/bootstrap.min.css" />
-    <style>
-
-     html, body, .container {
-       height: 100%;
-     }
-
-     body > .container {
-       padding-top: 10px;
-       padding-bottom: 40px;
-     }
-
-     footer {
-       margin-top: -40px;
-     }
-
-     .col-xs-5ths,
-     .col-sm-5ths,
-     .col-md-5ths,
-     .col-lg-5ths {
-       position: relative;
-       min-height: 1px;
-       padding-right: 15px;
-       padding-left: 15px;
-     }
-
-     .col-xs-5ths {
-       width: 20%;
-       float: left;
-     }
-
-     @media (min-width: 768px) {
-       footer {
-	 display: none;
-       }
-       .col-sm-5ths {
-         width: 20%;
-         float: left;
-       }
-     }
-
-     @media (min-width: 992px) {
-
-       .col-md-5ths {
-         width: 20%;
-         float: left;
-       }
-     }
-
-     @media (min-width: 1200px) {
-       .col-lg-5ths {
-         width: 20%;
-         float: left;
-       }
-     }
-
-     /*     .row { border: 1px solid red; } */
-     .icon { width: 40px; height: 40px; }
-     .day { background: #ddd; padding: 10px; }
-     .description { font-size: 1vw; }
-
-     .daytime {
-       background: #fff;
-       text-align: center;
-     }
-
-     .nighttime {
-       background: #222;
-       color: #fff;
-       text-align: center;
-     }
-
-     .nighttime svg {	 
-       -webkit-filter: invert(100%); /* safari 6.0 - 9.0 */
-       filter: invert(100%);
-     }
-
-     .date h3 {
-       text-align: centre;
-     }
-    </style>
+    <link rel="stylesheet" href="css/wx.css" />
   </head>
   <body>
     <div class="container">
-      <div class="row h-25">
-	<div class="col-lg-6 col-md-6 col-sm-12" id="outside"><h2>Outside</h2>
-	  <span class="metric"><span class="label">Temp:</span><span id="temperature_C"></span>&deg;C</span><br>
-	  <span class="metric"><span class="label">Rel. Hum.</span><span id="humidity"></span>%</span><br>
+      <div class="col-lg-12 col-md-12 col-sm-12">
+	<div class="row">
+	  <div class="col-12"><h2>Present Conditions</h2></div>
+	  <div class="col-12"><p id="headline"></p></div>
 	</div>
-	<div class="col-lg-6 col-md-6 col-sm-12" id="wind">
-	  <h2>Wind</h2>
-	  <span class="metric"><span class="label">Direction:</span> <span id="direction_deg"></span>&deg;</span><br>
-	  <span class="metric"><span class="label">Speed:</span> <span id="speed"></span>km/h</span><br>
-	  <span class="metric"><span class="label">Gusting:</span> <span id="gust"></span>km/h</span><br>
-	  <span class="metric"><span class="label">Rain:</span> <span id="rain"></span>mm</span><br>
+	<div class="row">
+	  <div class="col-lg-6 col-md-6 col-sm-12" id="outside">
+	    <span class="metric"><span class="label">Temp:</span> <span id="temperature_C"></span>&deg;C</span><br>
+	    <span class="metric"><span class="label">Rel. Hum.</span> <span id="humidity"></span>%</span><br>
+	  </div>
+	  <div class="col-lg-6 col-md-6 col-sm-12" id="wind">
+	    <span class="metric"><span class="label">Direction:</span> <span id="direction_deg"></span>&deg;</span><br>
+	    <span class="metric"><span class="label">Speed:</span> <span id="speed"></span>km/h</span><br>
+	    <span class="metric"><span class="label">Gusting:</span> <span id="gust"></span>km/h</span><br>
+	    <span class="metric"><span class="label">Rain:</span> <span id="rain"></span>mm</span><br>
+	  </div>
 	</div>
       </div>
-      <!-- div class="row h-25">
+      <!-- div class="row">
 	<div class="col-lg-6 col-md-6 col-sm-12" id="tendency"></div>
 	<div class="col-lg-6 col-md-6 col-sm-12" id="pressure"></div>
       </div-->
-      <div class="row h-75">
+      <div class="row">
 	<div class="col-lg-12 col-md-12 col-sm-12">
 	  <div class="row">
 	    <div class="col-12"><h2>5 Day Forecast</h2></div>
@@ -117,80 +43,17 @@
 	  </div>
 	</div>
       </div>
-    </div>
-    <footer class="footer">
-      <div class="container">
-	<div class="row">
-	  <div class="col-lg-6 col-md-6 col-sm-6" id="stats-tm">
-	    <span class="metric"><span class="label">Date/Time:</span><span id="time"></span></span>
-	  </div>
-	  <div class="col-lg-6 col-md-6 col-sm-6" id="stats-bt">
-	    <span class="metric"><span class="label">Battery:</span><span id="battery"></span></span>
-	  </div>
+      <div class="row">
+	<div class="col-lg-6 col-md-6 col-sm-6" id="stats-tm">
+	  <span class="metric"><span class="label">Date/Time:</span><span id="time"></span></span>
+	</div>
+	<div class="col-lg-6 col-md-6 col-sm-6" id="stats-bt">
+	  <span class="metric"><span class="label">Battery:</span><span id="battery"></span></span>
 	</div>
       </div>
-    </footer>
-
+    </div>
     <script src="js/jquery-3.3.1.min.js"></script>
     <script src="js/bootstrap.bundle.min.js"></script>
-    <script>
-     
-     const update = () => {
-       $.getJSON("/wx.cgi?type=wx", struct => {
-	 Object.keys(struct).forEach((k) => {
-	   $(`#${k}`).html(struct[k]);
-	 });
-       });
-
-       $.getJSON("/wx.cgi?type=forecast", struct => {
-	 console.log(struct);
-
-	 let  id=0;
-	 struct.DailyForecasts.forEach(day => {
-	   const date = new Date(day.Date).toLocaleDateString();
-	   const moonrise = new Date(day.Moon.Rise).toLocaleDateString();
-	   const moonset = new Date(day.Moon.Set).toLocaleDateString();
-
-	   const dayEl = $(`
-<div>
-  <div class="row">
-    <div class="col date"><h3>${date}</h3></div>
-  </div>
-  <div class="row">
-    <div class="daytime col-6">
-      Day<br/>
-      <img class="icon icon-wx" src="gfx/${day.Day.Icon}.svg" alt="${day.Day.IconPhrase}"/>
-    </div>
-    <div class="nighttime col-6">
-      Night<br/>
-      <img class="icon icon-wx" src="gfx/${day.Night.Icon}.svg" alt="${day.Night.IconPhrase}"/>
-    </div>
-  </div>
-  <div>
-    High: ${day.Temperature.Maximum.Value}&deg;${day.Temperature.Maximum.Unit}
-  </div>
-  <div>
-    Low: ${day.Temperature.Minimum.Value}&deg;${day.Temperature.Minimum.Unit}
-  </div>
-  <div>
-   Chance of Rain: ${day.Day.PrecipitationIntensity||""} / ${day.Day.PrecipitationProbability}%
-  </div>
-  <div>
-    Moon: <img class="icon icon-moon" src="gfx/moon/${day.Moon.Phase}.svg" alt="${day.Moon.Phase}"/>
-  </div>
-  <div class="description">
-    ${day.Day.LongPhrase}
-  </div>
-</div>`);
-	   $(`#day${id}`).empty().append(dayEl);
-	   id += 1;
-	 });
-       });
-     };
-
-     const interval = setInterval(update, 30000);
-     update();
-     //{"time" : "2019-02-18 23:07:53", "model" : "Fine Offset Electronics WH1080/WH3080 Weather Station", "msg_type" : 0, "id" : 84, "temperature_C" : 4.100, "humidity" : 59, "direction_deg" : 225, "speed" : 1.224, "gust" : 3.672, "rain" : 804.600, "battery" : "LOW", "mic" : "CRC"}
-    </script>
+    <script src="js/wx.js"></script>
   </body>
 </html>

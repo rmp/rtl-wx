@@ -1,0 +1,84 @@
+html, body, .container {
+    height: 100%;
+}
+
+body > .container {
+    padding: 10px;
+}
+
+
+.col-xs-5ths,
+.col-sm-5ths,
+.col-md-5ths,
+.col-lg-5ths {
+    position: relative;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+.col-xs-5ths {
+    width: 20%;
+    float: left;
+}
+
+@media (min-width: 768px) {
+    .col-sm-5ths {
+        width: 20%;
+        float: left;
+    }
+}
+
+@media (min-width: 992px) {
+  
+    .col-md-5ths {
+        width: 20%;
+        float: left;
+    }
+}
+
+@media (min-width: 1200px) {
+
+    .col-lg-5ths {
+        width: 20%;
+        float: left;
+    }
+}
+
+/*     .row { border: 1px solid red; } */
+.icon {
+    width: 4vw;
+    height: 4vw;
+    padding: 4px;
+}
+
+.day {
+    background: #ddd;
+    padding: 10px;
+    min-height: 40vw;
+}
+
+.description {
+    font-size: 1vw;
+    background: #fff;
+    padding: 4px;
+}
+
+.daytime, .nighttime {
+    text-align: center;
+    border: 4px solid #ddd;
+}
+
+.daytime {
+    background: #ffe;
+}
+
+.nighttime {
+    background: #222;
+    color: #fff;
+}
+
+.nighttime svg {	 
+    -webkit-filter: invert(100%); /* safari 6.0 - 9.0 */
+    filter: invert(100%);
+}
